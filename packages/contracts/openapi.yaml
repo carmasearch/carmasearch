@@ -1,0 +1,47 @@
+openapi: 3.0.3
+info:
+  title: Carma Search API
+  version: 1.0.0
+  description: Core API contract for Carma Search
+
+servers:
+  - url: /api/v1
+
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        "200":
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+
+components:
+  schemas:
+    HealthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+              example: ok
+        error:
+          nullable: true
+        meta:
+          $ref: "#/components/schemas/Meta"
+
+    Meta:
+      type: object
+      properties:
+        request_id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time

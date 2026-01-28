@@ -1,0 +1,26 @@
+Vehicle:
+  type: object
+  properties:
+    id:
+      type: string
+    brand:
+      type: string
+    model:
+      type: string
+    variant:
+      type: string
+    year:
+      type: integer
+
+PriceSnapshot:
+  type: object
+  properties:
+    amount:
+      type: number
+    currency:
+      type: string
+    source:
+      type: string
+    recorded_at:
+      type: string
+      format: date-time
