@@ -17,7 +17,7 @@ func TestLoad(t *testing.T) {
 		os.Unsetenv("LOG_LEVEL")
 	}()
 
-	cfg, err := Load()
+	cfg, err := LoadEnv(".env.test")
 	if err != nil {
 		t.Fatalf("failed to load config: %v", err)
 	}

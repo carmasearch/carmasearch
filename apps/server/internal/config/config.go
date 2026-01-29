@@ -7,14 +7,14 @@ import (
 )
 
 // Load reads configuration from environment variables
-func Load() (*Config, error) {
+func LoadEnv(path string) (*Config, error) {
 	// Load .env file if it exists (ignore error in production)
-	_ = godotenv.Load()
+	_ = godotenv.Load(path) // path could be .env which is in the root directory of the project
 
 	cfg := &Config{
 		Server: ServerConfig{
-			Port:	GetEnv("SERVER_PORT", "8080"),
-			Host:	GetEnv("SERVER_HOST", "0.0.0.0"),
+			Port:         GetEnv("SERVER_PORT", "8080"),
+			Host:         GetEnv("SERVER_HOST", "0.0.0.0"),
 			ReadTimeout:  GetDurationEnv("SERVER_READ_TIMEOUT", 15*time.Second),
 			WriteTimeout: GetDurationEnv("SERVER_WRITE_TIMEOUT", 15*time.Second),
 			IdleTimeout:  GetDurationEnv("SERVER_IDLE_TIMEOUT", 60*time.Second),
@@ -31,8 +31,13 @@ func Load() (*Config, error) {
 			MaxIdleConns:    GetIntEnv("DB_MAX_IDLE_CONNS", 5),
 			ConnMaxLifetime: GetDurationEnv("DB_CONN_MAX_LIFETIME", 5*time.Minute),
 		},
+		Redis: RedisConfig{
+			Addr:     GetEnv("REDIS_ADDR", "localhost:6379"),
+			Password: GetEnv("REDIS_PASSWORD", ""),
+			DB:       GetIntEnv("REDIS_DB", 0),
+		},
 		Logging: LoggingConfig{
-			Level: GetEnv("LOG_LEVEL", "info"),
+			Level:  GetEnv("LOG_LEVEL", "info"),
 			Format: GetEnv("LOG_FORMAT", "json"),
 		},
 		CORS: CORSConfig{
@@ -43,9 +48,8 @@ func Load() (*Config, error) {
 	}
 
 	// Validate required fields
-	if err:= cfg.Validate(); err != nil {
+	if err := cfg.Validate(); err != nil {
 		return nil, err
 	}
 	return cfg, nil
 }
-

@@ -22,3 +22,12 @@ func (c *Config) IsProduction() bool {
 	return c.Server.Environment == "production"
 }
 
+// Generate pg database connection string
+func (c *Config) GeneratePGConnectionString() string {
+	return fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s", c.Database.Host, c.Database.User, c.Database.Password, c.Database.DBName, c.Database.Port, c.Database.SSLMode)
+}
+
+// Generate redis db conneciton string
+func (c *Config) GenerateRedisConnectionString() string {
+	return fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s", c.Database.Host, c.Database.User, c.Database.Password, c.Database.DBName, c.Database.Port, c.Database.SSLMode)
+}

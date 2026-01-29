@@ -6,10 +6,11 @@ import (
 
 // Config is the application configuration.
 type Config struct {
-	Server ServerConfig
+	Server   ServerConfig
 	Database DatabaseConfig
-	Logging LoggingConfig
-	CORS CORSConfig
+	Redis    RedisConfig
+	Logging  LoggingConfig
+	CORS     CORSConfig
 }
 
 // ServerConfig holds server-specific configuration
@@ -34,6 +35,14 @@ type DatabaseConfig struct {
 	MaxIdleConns    int
 	ConnMaxLifetime time.Duration
 }
+
+// Redis database config
+type RedisConfig struct {
+	Addr     string
+	Password string
+	DB       int
+}
+
 // LoggingConfig holds logging configuration
 type LoggingConfig struct {
 	Level  string

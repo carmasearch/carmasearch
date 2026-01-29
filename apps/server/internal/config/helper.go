@@ -37,7 +37,7 @@ func GetDurationEnv(key string, defaultValue time.Duration) time.Duration {
 			return duration
 		}
 	}
-	return defaultValue;
+	return defaultValue
 }
 
 // GetStringSliceEnv returns the value of the environment variable with the given key.
