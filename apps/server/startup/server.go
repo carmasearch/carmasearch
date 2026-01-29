@@ -38,6 +38,7 @@ func create(env *config.Config) (network.Router, Shutdown) {
 	if err != nil {
 		panic("failed to connect database: " + err.Error())
 	}
+
 	store := redis.NewStore(ctx, &env.Redis)
 	store.Connect()
 	// define module here

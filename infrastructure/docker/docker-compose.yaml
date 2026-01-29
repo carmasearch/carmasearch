@@ -1,25 +1,61 @@
 services:
   db:
     image: postgres:16-alpine
-    container_name: pg-db
+    container_name: carma_db
     profiles:
       - dev
       - prod
     environment:
-      - POSTGRES_USER=${PG_USERNAME}
-      - POSTGRES_PASSWORD=${PG_PASSWORD}
-      - POSTGRES_DB=${PG_DATABASE}
-      - PGDATA=/var/lib/postgresql/data/pgdata
+      POSTGRES_USER: ${DB_USER:-carma_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-carma0912pass}
+      POSTGRES_DB: ${DB_NAME:-carma_db}
+      PGDATA: /var/lib/postgresql/data/pgdata
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${PG_USERNAME} -d ${PG_DATABASE}"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${DB_USER:-carma_user} -d ${DB_NAME:-carma_db}",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - carmasearch
+    restart: unless-stopped
 
+  redis:
+    image: redis:alpine
+    container_name: redis
+    profiles:
+      - dev
+      - prod
+    ports:
+      - "6379:6379"
+    networks:
+      - carmasearch
+    restart: unless-stopped
+
+  # Optional: your Go API service
+  app:
+    build: .
+    container_name: carma-server
+    profiles:
+      - prod
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    env_file:
+      - ../../.env
+    ports:
+      - "8080:8080"
+    networks:
+      - carmasearch
     restart: unless-stopped
 
 volumes:
@@ -27,4 +63,5 @@ volumes:
     driver: local
 
 networks:
-  default:
+  carmasearch:
+    driver: bridge

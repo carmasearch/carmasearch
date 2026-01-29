@@ -13,7 +13,7 @@ type router struct {
 }
 
 func NewRouter(mode string) Router {
-	gin.SetMode(mode)
+	gin.SetMode(gin.ReleaseMode)
 	eng := gin.Default()
 	r := router{
 		engine: eng,

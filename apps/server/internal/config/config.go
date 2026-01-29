@@ -3,6 +3,7 @@ package config
 import (
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
@@ -18,7 +19,7 @@ func LoadEnv(path string) (*Config, error) {
 			ReadTimeout:  GetDurationEnv("SERVER_READ_TIMEOUT", 15*time.Second),
 			WriteTimeout: GetDurationEnv("SERVER_WRITE_TIMEOUT", 15*time.Second),
 			IdleTimeout:  GetDurationEnv("SERVER_IDLE_TIMEOUT", 60*time.Second),
-			Environment:  GetEnv("ENV", "development"),
+			Environment:  GetEnv("ENV", gin.DebugMode),
 		},
 		Database: DatabaseConfig{
 			Host:            GetEnv("DB_HOST", "localhost"),
