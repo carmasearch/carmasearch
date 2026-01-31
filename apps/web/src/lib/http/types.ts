@@ -52,3 +52,10 @@ export interface HttpResponse<T> {
   headers: Headers;
   raw: Response;
 }
+
+// const api = createServerHttpClient();
+
+// const { data, status } = await api.get<User[]>("/users", {
+//   params: { page: 1, limit: 20 },
+//   next: { tags: ["users"] },
+// });

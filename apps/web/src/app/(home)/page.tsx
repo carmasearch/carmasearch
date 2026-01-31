@@ -2,8 +2,11 @@ import Header from "@/components/shared/header/header";
 import SiteLogo from "@/components/shared/site.logo";
 import CtaButtons from "./_components/cta/cta.buttons";
 import { Card } from "@/components/ui/card";
-import { AnimatedCounter } from "@/components/shared/animated-counter";
 import VehiclesCounts from "./_components/stats-section/vehicles-counts";
+import FeaturesSection from "./_components/features-section/section";
+import LogoScrolling from "./_components/branding-section/logo-scrolling";
+import PricingAlert from "./_components/pricing-alert-section/pricing-alert";
+import React from "react";
 
 export default function Home() {
   return (
@@ -80,6 +83,47 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {/* Features Section */}
+      <FeaturesSection />
+
+      {/* Logo Scroll Wheel */}
+      <section className="py-6 px-4 bg-background border-t border-border/20">
+        <LogoScrolling />
+      </section>
+
+      {/* Price Alerts Section */}
+      <section id="price-alerts" className="py-20 px-4 bg-card/20">
+        <div className="container mx-auto text-center">
+          <h2 className="text-4xl font-bold text-balance mb-6">
+            Make car shopping seamless.{" "}
+            <span className="text-primary">Tools for smart buyers</span>
+          </h2>
+          <p className="text-lg text-muted-foreground text-balance max-w-2xl mx-auto mb-12">
+            Set up price alerts and get notified when when your dream car drops
+            in price.
+          </p>
+          <div className="max-w-md mx-auto">
+            <PricingAlert />
+          </div>
+        </div>
+      </section>
+
+      {/* Modals */}
+      <React.Fragment>
+        {/* <CompareModal
+        isOpen={isCompareModalOpen}
+        onClose={() => setIsCompareModalOpen(false)}
+      />
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+      />
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        mode={authMode}
+      /> */}
+      </React.Fragment>
     </div>
   );
 }
